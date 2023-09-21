@@ -4,7 +4,7 @@ from memory_profiler import profile
 import time
 import os
 import glob
-from tkinter
+
 num = []  # 用于储存生成题目的字符及计算数字
 title = []  # 用于储存生成题目的二叉树
 
@@ -250,19 +250,29 @@ def main():
             os.remove(file)
         for file in glob.glob('Exercises.txt'):
             os.remove(file)
+        for file in glob.glob('Exercises_test.txt'):
+            os.remove(file)
         n = int(input('输入要生成题目的数量:'))
-        while 1:
-            min = int(input('输入数值的下限，必须是正数:'))
-            max = int(input(f'输入数值的上限，需要大于{min}:'))
+        while 1: # 进行模块异常检验
+            min = int(input('输入数值的下限，必须是正数且小于10:'))
+            max = int(input(f'输入数值的上限，需要大于{min}且小于10:'))
             if min <= 0:
                 print("输入下限错误，请重新输入！")
                 continue
+            elif min >= 10:
+                print("输入下限超过10，请重新输入！")
+                continue
             elif max < min:
                 print("输入上限错误，请重新输入！")
+                continue
+            elif max >= 10:
+                print("输入上限超过10，请重新输入！")
+                continue
             else:
                 break
         f1 = open('./Exercises.txt', 'a', encoding='utf-8')
         f2 = open('./Answers.txt', 'a', encoding='utf-8')
+        f3 = open('./Exercises_test.txt', 'a', encoding='utf-8') # 作为电脑计算的文件
         repeat(n, min, max)
         for i in range(len(title)):
             num.clear()
@@ -271,7 +281,7 @@ def main():
             print(question1)
             f1.write(f'{i + 1}. ' + question1 + '\n')
             temp = question2.split(' ')
-
+            f3.write(f'{i + 1}. ' + question2 + '\n')
             if len(temp) == 5:
                 problem = 'Fraction(temp[0])' + temp[1] + 'Fraction(temp[2])' + temp[3] + 'Fraction(temp[4])'
             elif len(temp) == 3:
@@ -289,7 +299,7 @@ def main():
         for file in glob.glob('Grade.txt'):
             os.remove(file)
         LIMIT = 10e-10
-        f1 = open('./Exercises.txt', 'r', encoding='utf-8')
+        f1 = open('./Exercises_test.txt', 'r', encoding='utf-8')
         f2 = open('./Answers.txt', 'r', encoding='utf-8')
         f3 = open('./Grade.txt', 'w', encoding='utf-8')
         line1 = f1.readline()
