@@ -1,8 +1,14 @@
-import random
 from fractions import Fraction
 import os
 import glob
-
+import random
+from fractions import Fraction
+import time
+from memory_profiler import profile
+from pympler import muppy
+from pympler import summary
+import pstats
+import cProfile
 num = []  # 用于储存生成题目的字符及计算数字
 title = []  # 用于储存生成题目的二叉树
 
@@ -219,10 +225,12 @@ def str_num(t):
 
     return result1, result2
 
-
+@profile
 # 重复生成题目
 # n为生成题目的数量
 def repeat(n, min, max):
+    flag = n
+    start_time1 = time.time()
     while n != 0:
         t = generate_num(min, max)
         if len(title) == 0:
@@ -234,7 +242,9 @@ def repeat(n, min, max):
                     continue
             title.append(t)
             n -= 1
-
+    end_time1 = time.time()
+    print('\n')
+    print(f"函数generate_num生成{flag}次题目所花的时间为{end_time1 - start_time1}s")
 
 def main():
     print("****************************")
@@ -284,7 +294,10 @@ def main():
         f1 = open('./Exercises.txt', 'a', encoding='utf-8')
         f2 = open('./Answers.txt', 'a', encoding='utf-8')
         f3 = open('./Exercises_test.txt', 'a', encoding='utf-8') # 作为电脑计算的文件
+        start_time0 = time.time()
         repeat(n, min, max)
+        print('\n')
+        print("生成题目的结果如下：")
         for i in range(len(title)):
             num.clear()
             title[i].inorder()
@@ -304,6 +317,9 @@ def main():
                 problem = 'Fraction(temp[0])' + temp[1] + temp[2] + 'Fraction(temp[3])' + temp[
                     4] + 'Fraction(temp[5])' + temp[6]
             f2.write(f'{i + 1}. ' + str(eval(problem)) + '\n')
+        end_time0 = time.time()
+        print('\n')
+        print(f"整个程序运行的时间为{end_time0 - start_time0}s")
 
     else:
         # 删除之前已有的文件，避免出现文本重叠的情况
@@ -354,4 +370,13 @@ def main():
 
 
 if __name__ == '__main__':
+    # cProfile.run('main()')
     main()
+
+    # all_objects = muppy.get_objects()
+    # len(all_objects)
+    # suml = summary.summarize(all_objects)
+    # summary.print_(suml)
+    # cProfile.run('main()', filename='C:/Users/Lenovo/Desktop/test_result.txt')
+    # p = pstats.Stats('C:/Users/Lenovo/Desktop/test_result.txt')
+    # p.sort_stats('cumulative').print_stats()
