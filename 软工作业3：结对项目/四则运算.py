@@ -1,7 +1,5 @@
 import random
 from fractions import Fraction
-from memory_profiler import profile
-import time
 import os
 import glob
 
@@ -239,11 +237,14 @@ def repeat(n, min, max):
 
 
 def main():
-    function = int(input('生成题目输入1，自动查答案输入2\n'))
+    print("****************************")
+    function = int(input('生成题目输入1，自动查答案输入2:'))
+    print("****************************")
     # function = 2
     while function != 1 and function != 2:
         print('输入错误，请重新输入\n')
-        function = int(input('生成题目输入1，自动查答案输入2\n'))
+        print("**************************")
+        function = int(input('生成题目输入1，自动查询答案输入2:'))
     if function == 1:
         # 删除之前已有的文件，避免出现文本重叠的情况
         for file in glob.glob('Answers.txt'):
@@ -252,10 +253,18 @@ def main():
             os.remove(file)
         for file in glob.glob('Exercises_test.txt'):
             os.remove(file)
+        print()
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>")
         n = int(input('输入要生成题目的数量:'))
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        print()
         while 1: # 进行模块异常检验
+            print("**************************")
             min = int(input('输入数值的下限，必须是正数且小于10:'))
+            print("**************************\n")
+            print("**************************")
             max = int(input(f'输入数值的上限，需要大于{min}且小于10:'))
+            print("**************************\n")
             if min <= 0:
                 print("输入下限错误，请重新输入！")
                 continue
@@ -270,6 +279,8 @@ def main():
                 continue
             else:
                 break
+        print("以下时程序运行结果：")
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>")
         f1 = open('./Exercises.txt', 'a', encoding='utf-8')
         f2 = open('./Answers.txt', 'a', encoding='utf-8')
         f3 = open('./Exercises_test.txt', 'a', encoding='utf-8') # 作为电脑计算的文件
